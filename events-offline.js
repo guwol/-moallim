@@ -1,0 +1,802 @@
+if (location.protocol === "file:") window.moallimOfflineEvents = [
+  {
+    "id": "demo-culture-01",
+    "title": "겨울 저녁, 작은 클래식 음악회",
+    "categories": [
+      "문화·예술"
+    ],
+    "regions": [
+      "호평동",
+      "평내동"
+    ],
+    "scope": "local",
+    "startDate": "2026-12-12T17:00:00+09:00",
+    "endDate": "2026-12-12T18:30:00+09:00",
+    "registrationStart": null,
+    "registrationEnd": null,
+    "location": null,
+    "organizer": null,
+    "description": "따뜻한 실내에서 현악기의 선율을 감상하는 가상의 소규모 공연입니다. 이 기록은 화면과 기능을 살펴보기 위한 예시이며 실제 행사 일정이 아닙니다.",
+    "sourceUrl": null,
+    "status": "demo",
+    "isVerified": false,
+    "isDemo": true,
+    "subcategories": {
+      "문화·예술": [
+        "공연·연극",
+        "음악"
+      ]
+    },
+    "previewNote": "현악 연주 감상 · 무료 관람"
+  },
+  {
+    "id": "demo-festival-01",
+    "title": "동네의 겨울을 나누는 작은 마켓",
+    "categories": [
+      "축제·행사",
+      "가족·어린이"
+    ],
+    "regions": [
+      "남양주시 전체"
+    ],
+    "scope": "citywide",
+    "startDate": "2026-12-19T13:00:00+09:00",
+    "endDate": "2026-12-19T17:00:00+09:00",
+    "registrationStart": null,
+    "registrationEnd": null,
+    "location": null,
+    "organizer": null,
+    "description": "지역의 손작업과 겨울 간식을 둘러보는 가상의 마켓 예시입니다. 남양주시가 주최하거나 실제로 개최하는 행사로 확인된 내용이 아닙니다.",
+    "sourceUrl": null,
+    "status": "demo",
+    "isVerified": false,
+    "isDemo": true,
+    "previewNote": "주민 수공예품 장터 · 입장 무료"
+  },
+  {
+    "id": "demo-sports-01",
+    "title": "주말 아침, 함께 걷는 별내 산책",
+    "categories": [
+      "스포츠",
+      "가족·어린이"
+    ],
+    "regions": [
+      "별내동",
+      "별내면"
+    ],
+    "scope": "local",
+    "startDate": "2026-12-06T09:00:00+09:00",
+    "endDate": "2026-12-06T10:30:00+09:00",
+    "registrationStart": null,
+    "registrationEnd": null,
+    "location": null,
+    "organizer": null,
+    "description": "가족과 이웃이 가볍게 참여하는 걷기 모임을 가정한 데모 기록입니다. 운영 주체와 코스 정보는 실제 자료가 아닙니다.",
+    "sourceUrl": null,
+    "status": "demo",
+    "isVerified": false,
+    "isDemo": true,
+    "previewNote": "초보자 산책 코스 · 운동화 착용"
+  },
+  {
+    "id": "demo-family-01",
+    "title": "종이와 빛으로 만드는 겨울 장식",
+    "categories": [
+      "가족·어린이",
+      "문화·예술"
+    ],
+    "regions": [
+      "진접읍",
+      "오남읍"
+    ],
+    "scope": "local",
+    "startDate": "2026-12-13T14:00:00+09:00",
+    "endDate": "2026-12-13T15:30:00+09:00",
+    "registrationStart": null,
+    "registrationEnd": null,
+    "location": null,
+    "organizer": null,
+    "description": "종이 재료와 빛을 활용해 계절 장식을 만들어 보는 가상의 가족 프로그램입니다. 실제 연령 기준이나 신청 정보는 확인되지 않았습니다.",
+    "sourceUrl": null,
+    "status": "demo",
+    "isVerified": false,
+    "isDemo": true,
+    "subcategories": {
+      "문화·예술": [
+        "공예·도예"
+      ]
+    },
+    "previewNote": "보호자와 함께 만드는 종이 조명 · 재료비 3,000원"
+  },
+  {
+    "id": "demo-volunteer-01",
+    "title": "우리 동네 겨울 안부 카드 만들기",
+    "categories": [
+      "봉사·참여"
+    ],
+    "regions": [
+      "금곡동",
+      "양정동"
+    ],
+    "scope": "local",
+    "startDate": "2026-12-09T15:00:00+09:00",
+    "endDate": "2026-12-09T16:30:00+09:00",
+    "registrationStart": null,
+    "registrationEnd": null,
+    "location": null,
+    "organizer": null,
+    "description": "이웃에게 전할 안부 카드를 함께 준비하는 가상의 참여 활동입니다. 실제 봉사 시간 인정이나 모집 여부를 뜻하지 않습니다.",
+    "sourceUrl": null,
+    "status": "demo",
+    "isVerified": false,
+    "isDemo": true,
+    "previewNote": "안부 카드 손글씨 쓰기 · 재료 제공"
+  },
+  {
+    "id": "demo-reading-01",
+    "title": "겨울밤 그림책 낭독 모임",
+    "categories": [
+      "독서·도서관",
+      "가족·어린이"
+    ],
+    "regions": [
+      "화도읍",
+      "수동면"
+    ],
+    "scope": "local",
+    "startDate": "2026-12-20T16:00:00+09:00",
+    "endDate": "2026-12-20T17:00:00+09:00",
+    "registrationStart": null,
+    "registrationEnd": null,
+    "location": null,
+    "organizer": null,
+    "description": "편안한 분위기에서 그림책을 함께 읽고 이야기를 나누는 가상의 독서 모임 예시입니다. 도서관 공식 프로그램이 아닙니다.",
+    "sourceUrl": null,
+    "status": "demo",
+    "isVerified": false,
+    "isDemo": true,
+    "previewNote": "가족 그림책 낭독 · 어린이 동반 가능"
+  },
+  {
+    "id": "demo-2026-01",
+    "title": "주말 도자기 체험 교실",
+    "categories": [
+      "문화·예술"
+    ],
+    "regions": [
+      "다산1동"
+    ],
+    "scope": "local",
+    "startDate": "2026-12-05T14:00:00+09:00",
+    "endDate": "2026-12-05T16:00:00+09:00",
+    "registrationStart": null,
+    "registrationEnd": null,
+    "location": null,
+    "organizer": null,
+    "targetAudience": null,
+    "fee": null,
+    "description": "도자기 빚기 과정을 가볍게 체험해 보는 가상의 주말 수업입니다.",
+    "participantCount": 9,
+    "maxParticipants": 18,
+    "sourceUrl": null,
+    "registrationUrl": null,
+    "status": "demo",
+    "isDemo": true,
+    "isVerified": false,
+    "subcategories": {
+      "문화·예술": [
+        "공예·도예"
+      ]
+    },
+    "previewNote": "초보자 찻잔 빚기 · 재료비 10,000원"
+  },
+  {
+    "id": "demo-education-01",
+    "title": "별내 시민 사진 클래스",
+    "categories": [
+      "교육·강좌"
+    ],
+    "regions": [
+      "별내동"
+    ],
+    "scope": "local",
+    "startDate": "2026-12-12T10:00:00+09:00",
+    "endDate": "2026-12-12T12:00:00+09:00",
+    "registrationStart": null,
+    "registrationEnd": null,
+    "location": null,
+    "organizer": null,
+    "targetAudience": null,
+    "fee": null,
+    "description": "사진 구도와 촬영의 기초를 함께 익히는 가상의 시민 강좌입니다.",
+    "participantCount": 7,
+    "maxParticipants": 15,
+    "sourceUrl": null,
+    "registrationUrl": null,
+    "status": "demo",
+    "isDemo": true,
+    "isVerified": false,
+    "previewNote": "스마트폰 사진 실습 · 개인 휴대폰 지참"
+  },
+  {
+    "id": "demo-2026-03",
+    "title": "컴퓨터 기초반",
+    "categories": [
+      "교육·강좌"
+    ],
+    "regions": [
+      "별내면"
+    ],
+    "scope": "local",
+    "startDate": "2026-10-01",
+    "endDate": "2026-12-31",
+    "registrationStart": "2026-09-14T09:00+09:00",
+    "registrationEnd": "2026-09-18T18:00+09:00",
+    "location": "별내면 주민자치센터 컴퓨터실",
+    "organizer": "별내면 주민자치센터",
+    "targetAudience": "컴퓨터를 처음 배우는 성인",
+    "fee": "75,000원 (교재비 12,000원 별도)",
+    "description": "신지영 강사와 함께 윈도우 기본 조작, 인터넷 이용, 한글 문서 작성을 실습하는 입문 과정입니다. 2026년 4차 모집은 온라인과 방문으로 선착순 접수했으며, 신청은 9월 18일에 마감되었습니다.",
+    "maxParticipants": 19,
+    "sourceUrl": null,
+    "registrationUrl": null,
+    "status": "published",
+    "isDemo": false,
+    "isVerified": false,
+    "subcategories": {
+      "교육·강좌": [
+        "코딩·IT"
+      ]
+    },
+    "schedule": "금요일 09:30–11:30",
+    "registrationStatus": "모집 마감",
+    "address": "경기도 남양주시 별내면 청학로8번길 22 별내면사무소",
+    "contact": "031-528-5859 · mk7600@naver.com",
+    "applicationCount": 0
+  },
+  {
+    "id": "demo-2026-04",
+    "title": "별내 작은 음악회",
+    "categories": [
+      "문화·예술"
+    ],
+    "regions": [
+      "별내동"
+    ],
+    "scope": "local",
+    "startDate": "2026-12-20T18:00:00+09:00",
+    "endDate": "2026-12-20T20:00:00+09:00",
+    "registrationStart": null,
+    "registrationEnd": null,
+    "location": null,
+    "organizer": null,
+    "targetAudience": null,
+    "fee": null,
+    "description": "가까운 이웃과 함께 음악을 감상하는 가상의 소규모 공연입니다.",
+    "participantCount": 18,
+    "maxParticipants": 30,
+    "sourceUrl": null,
+    "registrationUrl": null,
+    "status": "demo",
+    "isDemo": true,
+    "isVerified": false,
+    "subcategories": {
+      "문화·예술": [
+        "공연·연극",
+        "음악"
+      ]
+    },
+    "previewNote": "어쿠스틱 연주 · 전석 무료"
+  },
+  {
+    "id": "demo-2026-05",
+    "title": "별내 생활체육 프로그램",
+    "categories": [
+      "스포츠"
+    ],
+    "regions": [
+      "별내동"
+    ],
+    "scope": "local",
+    "startDate": "2026-12-06T10:00:00+09:00",
+    "endDate": "2026-12-06T12:00:00+09:00",
+    "registrationStart": null,
+    "registrationEnd": null,
+    "location": null,
+    "organizer": null,
+    "targetAudience": null,
+    "fee": null,
+    "description": "가벼운 생활체육 활동을 함께 해보는 가상의 프로그램입니다.",
+    "participantCount": 10,
+    "maxParticipants": 20,
+    "sourceUrl": null,
+    "registrationUrl": null,
+    "status": "demo",
+    "isDemo": true,
+    "isVerified": false,
+    "previewNote": "초보자 스트레칭 · 실내 운동화 지참"
+  },
+  {
+    "id": "demo-2026-06",
+    "title": "화도 문화 체험 교실",
+    "categories": [
+      "문화·예술"
+    ],
+    "regions": [
+      "화도읍"
+    ],
+    "scope": "local",
+    "startDate": "2026-12-07T14:00:00+09:00",
+    "endDate": "2026-12-07T16:00:00+09:00",
+    "registrationStart": null,
+    "registrationEnd": null,
+    "location": null,
+    "organizer": null,
+    "targetAudience": null,
+    "fee": null,
+    "description": "지역 문화 소재를 직접 경험해 보는 가상의 체험 수업입니다.",
+    "participantCount": 6,
+    "maxParticipants": 16,
+    "sourceUrl": null,
+    "registrationUrl": null,
+    "status": "demo",
+    "isDemo": true,
+    "isVerified": false,
+    "subcategories": {
+      "문화·예술": [
+        "생활문화"
+      ]
+    },
+    "previewNote": "전통 문양 책갈피 만들기 · 재료 제공"
+  },
+  {
+    "id": "demo-2026-07",
+    "title": "다산 주민 미술 전시",
+    "categories": [
+      "문화·예술"
+    ],
+    "regions": [
+      "다산1동"
+    ],
+    "scope": "local",
+    "startDate": "2026-11-20T10:00:00+09:00",
+    "endDate": "2026-11-23T18:00:00+09:00",
+    "registrationStart": null,
+    "registrationEnd": null,
+    "location": null,
+    "organizer": null,
+    "targetAudience": null,
+    "fee": null,
+    "description": "주민 작품을 함께 감상하는 가상의 소규모 전시 예시입니다.",
+    "participantCount": 9,
+    "maxParticipants": 18,
+    "sourceUrl": null,
+    "registrationUrl": null,
+    "status": "demo",
+    "isDemo": true,
+    "isVerified": false,
+    "subcategories": {
+      "문화·예술": [
+        "미술·전시"
+      ]
+    },
+    "previewNote": "주민 수채화 전시 · 자유 관람"
+  },
+  {
+    "id": "demo-2026-08",
+    "title": "별내 생활문화 주간",
+    "categories": [
+      "문화·예술"
+    ],
+    "regions": [
+      "별내동"
+    ],
+    "scope": "local",
+    "startDate": "2026-11-19T10:00:00+09:00",
+    "endDate": "2026-11-24T18:00:00+09:00",
+    "registrationStart": null,
+    "registrationEnd": null,
+    "location": null,
+    "organizer": null,
+    "targetAudience": null,
+    "fee": null,
+    "description": "지역의 다양한 생활문화를 나누는 가상의 행사 주간입니다.",
+    "participantCount": 22,
+    "maxParticipants": 40,
+    "sourceUrl": null,
+    "registrationUrl": null,
+    "status": "demo",
+    "isDemo": true,
+    "isVerified": false,
+    "subcategories": {
+      "문화·예술": [
+        "생활문화"
+      ]
+    },
+    "previewNote": "동네 공방 체험 · 가족 참여 가능"
+  },
+  {
+    "id": "demo-2026-09",
+    "title": "다산 가을 공예 교실",
+    "categories": [
+      "문화·예술"
+    ],
+    "regions": [
+      "다산1동"
+    ],
+    "scope": "local",
+    "startDate": "2026-10-25T10:00:00+09:00",
+    "endDate": "2026-10-25T12:00:00+09:00",
+    "registrationStart": null,
+    "registrationEnd": null,
+    "location": null,
+    "organizer": null,
+    "targetAudience": null,
+    "fee": null,
+    "description": "가을 재료를 활용해 공예를 경험하는 가상의 수업 예시입니다.",
+    "participantCount": 14,
+    "maxParticipants": 18,
+    "sourceUrl": null,
+    "registrationUrl": null,
+    "status": "demo",
+    "isDemo": true,
+    "isVerified": false,
+    "subcategories": {
+      "문화·예술": [
+        "공예·도예"
+      ]
+    },
+    "previewNote": "가을 잎 장식 만들기 · 재료비 5,000원"
+  },
+  {
+    "id": "demo-2026-10",
+    "title": "별내 시민 교육 특강",
+    "categories": [
+      "교육·강좌"
+    ],
+    "regions": [
+      "별내동"
+    ],
+    "scope": "local",
+    "startDate": "2026-11-09T14:00:00+09:00",
+    "endDate": "2026-11-09T16:00:00+09:00",
+    "registrationStart": null,
+    "registrationEnd": null,
+    "location": null,
+    "organizer": null,
+    "targetAudience": null,
+    "fee": null,
+    "description": "한 가지 생활 주제를 쉽게 알아보는 가상의 교육 특강 예시입니다.",
+    "participantCount": 12,
+    "maxParticipants": 25,
+    "sourceUrl": null,
+    "registrationUrl": null,
+    "status": "demo",
+    "isDemo": true,
+    "isVerified": false,
+    "previewNote": "성인 대상 특강 · 수강료 무료"
+  },
+  {
+    "id": "demo-city-education-01",
+    "title": "남양주 시민 문화 행사",
+    "categories": [
+      "문화·예술"
+    ],
+    "regions": [
+      "남양주시 전체"
+    ],
+    "scope": "citywide",
+    "startDate": "2026-12-15T14:00:00+09:00",
+    "endDate": "2026-12-15T17:00:00+09:00",
+    "registrationStart": null,
+    "registrationEnd": null,
+    "location": null,
+    "organizer": null,
+    "targetAudience": null,
+    "fee": null,
+    "description": "남양주 시민을 위한 문화 행사를 가정한 가상의 예시입니다.",
+    "participantCount": 17,
+    "maxParticipants": 40,
+    "sourceUrl": null,
+    "registrationUrl": null,
+    "status": "demo",
+    "isDemo": true,
+    "isVerified": false,
+    "previewNote": "시민 참여형 문화 체험 · 입장 무료"
+  },
+  {
+    "id": "nyj-1288",
+    "title": "나윤선 크리스마스 재즈콘서트",
+    "regions": [
+      "다산1동"
+    ],
+    "categories": [
+      "문화·예술"
+    ],
+    "subcategories": {
+      "문화·예술": [
+        "공연·연극",
+        "음악"
+      ]
+    },
+    "scope": "local",
+    "startDate": "2026-12-26T17:00:00+09:00",
+    "endDate": "2026-12-26T18:30:00+09:00",
+    "description": "나윤선의 목소리와 보얀 지의 피아노로 크리스마스 음악과 클래식 곡을 만나는 남양주문화재단 송년 공연입니다.",
+    "sourceUrl": "https://www.nyj.go.kr/culture/viewTnResrceU.do?resrceNo=1288&rcpp=6&so1=SDT&si1=23&si2=33&key=288",
+    "isDemo": false,
+    "isVerified": true,
+    "status": "published",
+    "location": "다산아트홀",
+    "address": "남양주시 다산중앙로 7",
+    "performers": "나윤선(보컬), 보얀 지(피아노)",
+    "fee": "R석 60,000원 / S석 40,000원",
+    "contact": "031-511-6780",
+    "bookingInfo": "11월 6일 14시 예매 시작 · 단체 및 휠체어석은 공연전시팀에 전화로 문의해 주세요.",
+    "targetAudience": "초등학생 이상",
+    "organizer": "남양주문화재단 (기획)",
+    "schedule": "90분",
+    "bookingGuideUrl": "https://www.nyjcf.or.kr/www/19?action=read&action-value=109",
+    "featured": true
+  },
+  {
+    "id": "jumin-276",
+    "title": "댄스스포츠(모던)",
+    "regions": [
+      "진접읍"
+    ],
+    "categories": [
+      "문화·예술"
+    ],
+    "subcategories": {
+      "문화·예술": [
+        "댄스"
+      ]
+    },
+    "scope": "local",
+    "startDate": "2026-10-01",
+    "endDate": "2026-12-31",
+    "description": "왈츠와 탱고 등 모던 댄스스포츠를 배우는 강좌입니다.",
+    "sourceUrl": "https://jumin.nyj.go.kr/web/edc/program/276",
+    "isDemo": false,
+    "isVerified": true,
+    "status": "published",
+    "schedule": "화·목 11:00–12:00",
+    "location": "진접읍 주민자치센터 2층 댄스실",
+    "fee": 90000,
+    "applicationCount": 9,
+    "maxParticipants": 20,
+    "registrationStart": "2026-09-16T09:00+09:00",
+    "registrationEnd": "2026-09-22T18:00+09:00"
+  },
+  {
+    "id": "jumin-3939",
+    "title": "건강 라인댄스(초급)",
+    "regions": [
+      "진접읍"
+    ],
+    "categories": [
+      "문화·예술"
+    ],
+    "subcategories": {
+      "문화·예술": [
+        "댄스"
+      ]
+    },
+    "scope": "local",
+    "startDate": "2026-10-01",
+    "endDate": "2026-12-31",
+    "description": "음악에 맞춰 기본 스텝을 반복하며 라인댄스를 익히는 초급 수업입니다.",
+    "sourceUrl": "https://jumin.nyj.go.kr/web/edc/program/3939?selectAreaIdx=9",
+    "isDemo": false,
+    "isVerified": true,
+    "status": "published",
+    "schedule": "월·수 13:00–13:50",
+    "applicationCount": 4,
+    "maxParticipants": 25,
+    "location": "진접읍 주민자치센터 2층 댄스실",
+    "fee": 72000,
+    "targetAudience": "성인",
+    "registrationStart": "2026-09-16T09:00+09:00",
+    "registrationEnd": "2026-09-22T18:00+09:00"
+  },
+  {
+    "id": "jinjeop-festival-2026",
+    "title": "진접 주민어울림 한마당",
+    "regions": [
+      "진접읍"
+    ],
+    "categories": [
+      "축제·행사"
+    ],
+    "subcategories": {
+      "축제·행사": [
+        "지역 축제"
+      ]
+    },
+    "scope": "local",
+    "startDate": "2026-10-31T10:30+09:00",
+    "endDate": "2026-10-31T16:00+09:00",
+    "description": "주민 작품을 감상하고 주민총회와 자원순환 패션 무대에 함께하는 축제입니다.",
+    "sourceUrl": "https://jinjeop.juminon.kr/news/notice/cmvre8w6h000aokmeafl0m7nw",
+    "isDemo": false,
+    "isVerified": true,
+    "status": "published",
+    "organizer": "진접읍 주민자치회",
+    "location": "진접체육문화센터 3층 대강당"
+  },
+  {
+    "id": "demo-jinjeop-festival",
+    "title": "진접 주민어울림 한마당",
+    "regions": [
+      "진접읍"
+    ],
+    "categories": [
+      "축제·행사"
+    ],
+    "subcategories": {
+      "축제·행사": [
+        "지역 축제"
+      ]
+    },
+    "scope": "local",
+    "startDate": "2026-12-05T10:30+09:00",
+    "endDate": "2026-12-05T16:00+09:00",
+    "description": "10월에 열린 주민 축제를 바탕으로 만든 시연용 일정입니다.",
+    "sourceUrl": null,
+    "isDemo": true,
+    "isVerified": false,
+    "status": "demo",
+    "originalStartDate": "2026-10-31T10:30+09:00",
+    "originalEndDate": "2026-10-31T16:00+09:00",
+    "previewNote": "주민 공연과 가족 체험 부스 · 자유 입장"
+  },
+  {
+    "id": "lib-78872",
+    "title": "업사이클링 팝업북 기초과정",
+    "regions": [
+      "진접읍"
+    ],
+    "categories": [
+      "독서·도서관"
+    ],
+    "subcategories": {
+      "독서·도서관": [
+        "도서관 프로그램"
+      ]
+    },
+    "scope": "local",
+    "startDate": "2026-11-03T10:00+09:00",
+    "endDate": "2026-11-24T12:00+09:00",
+    "description": "오래된 그림책을 재료로 네 가지 형태의 입체 책을 만드는 수업입니다.",
+    "sourceUrl": "https://lib.nyj.go.kr/jinjeop/lectureDetail.do?lectureIdx=78872",
+    "isDemo": false,
+    "isVerified": true,
+    "status": "published",
+    "schedule": "화요일 10:00–12:00 · 총 4회",
+    "targetAudience": "성인",
+    "location": "진접도서관 4층 동아리방",
+    "applicationCount": 12,
+    "maxParticipants": 12,
+    "registrationStart": "2026-10-27T10:00+09:00",
+    "registrationEnd": "2026-11-02",
+    "registrationStatus": "모집 마감"
+  },
+  {
+    "id": "demo-dasan-cooking",
+    "title": "다산 쿠킹 클래스",
+    "regions": [
+      "다산1동"
+    ],
+    "categories": [
+      "교육·강좌"
+    ],
+    "subcategories": {
+      "교육·강좌": [
+        "요리"
+      ]
+    },
+    "scope": "local",
+    "startDate": "2026-12-02T14:00+09:00",
+    "endDate": "2026-12-02T16:00+09:00",
+    "description": "단호박을 손질해 수프를 끓이고, 곁들일 허브 크루통을 만듭니다. 두 명씩 짝을 지어 실습한 뒤 함께 맛봅니다. 앞치마와 남은 수프를 담을 밀폐 용기를 가져와 주세요.",
+    "sourceUrl": null,
+    "isDemo": true,
+    "isVerified": false,
+    "status": "demo",
+    "applicationCount": 8,
+    "maxParticipants": 12,
+    "fee": "15,000원 (재료비 포함)",
+    "targetAudience": "요리를 처음 배우는 성인",
+    "registrationStart": "2026-11-16T09:00:00+09:00",
+    "registrationEnd": "2026-11-24T18:00:00+09:00",
+    "previewNote": "단호박 수프 실습 · 재료비 포함 15,000원"
+  },
+  {
+    "id": "demo-jinjeop-reading",
+    "title": "진접 독서 모임",
+    "regions": [
+      "진접읍"
+    ],
+    "categories": [
+      "독서·도서관"
+    ],
+    "subcategories": {
+      "독서·도서관": [
+        "독서 모임"
+      ]
+    },
+    "scope": "local",
+    "startDate": "2026-11-29T15:00+09:00",
+    "endDate": "2026-11-29T16:30+09:00",
+    "description": "각자 읽어 온 단편소설에서 한 문단을 골라 함께 읽습니다. 그 문장이 기억에 남은 이유를 나누고, 마지막에는 다음 모임에서 읽을 작품을 고릅니다. 읽은 책과 필기구를 가져와 주세요.",
+    "sourceUrl": null,
+    "isDemo": true,
+    "isVerified": false,
+    "status": "demo",
+    "applicationCount": 6,
+    "maxParticipants": 10,
+    "fee": 0,
+    "targetAudience": "단편소설을 좋아하는 성인",
+    "previewNote": "성인 단편소설 모임 · 읽은 책 지참"
+  },
+  {
+    "id": "demo-dasan-japanese",
+    "title": "다산 기초 일본어 회화",
+    "regions": [
+      "다산1동"
+    ],
+    "categories": [
+      "교육·강좌"
+    ],
+    "subcategories": {
+      "교육·강좌": [
+        "외국어"
+      ]
+    },
+    "scope": "local",
+    "startDate": "2026-12-06T14:00+09:00",
+    "endDate": "2026-12-06T15:30+09:00",
+    "description": "일본어 인사말과 자기소개를 익히고, 짝과 함께 카페에서 음료를 주문하는 짧은 대화를 연습합니다.",
+    "targetAudience": "일본어를 처음 배우는 주민",
+    "sourceUrl": null,
+    "isDemo": true,
+    "isVerified": false,
+    "status": "demo",
+    "previewNote": "입문자 인사·주문 회화 · 교재 없이 참여"
+  },
+  {
+    "id": "jumin-4293",
+    "title": "스마트폰으로 만나는 AI세상",
+    "regions": [
+      "평내동"
+    ],
+    "categories": [
+      "교육·강좌"
+    ],
+    "subcategories": {
+      "교육·강좌": [
+        "코딩·IT"
+      ]
+    },
+    "scope": "local",
+    "startDate": "2026-10-01",
+    "endDate": "2026-12-31",
+    "schedule": "목요일 14:00–15:20",
+    "location": "평내동 주민자치센터 2층 컴퓨터교실",
+    "address": "경기도 남양주시 경춘로 1286",
+    "organizer": "평내동 주민자치센터",
+    "description": "배은영 강사와 함께 갤럭시 스마트폰으로 AI 기술을 익히고 일상에서 활용하는 방법을 배웁니다. 별도 준비물은 없습니다. 신청은 평내동 주민자치센터에서 방문 접수하며 선착순으로 모집합니다.",
+    "targetAudience": "성인",
+    "fee": 75000,
+    "applicationCount": 13,
+    "maxParticipants": 20,
+    "registrationStart": "2026-09-14T09:00+09:00",
+    "registrationEnd": "2026-11-30T18:00+09:00",
+    "contact": "031-591-4600",
+    "status": "published",
+    "isDemo": false,
+    "isVerified": true,
+    "sourceUrl": "https://jumin.nyj.go.kr/web/edc/program/4293"
+  }
+];
