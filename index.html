@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#f6f8f7">
   <meta name="description" content="남양주시의 지역 소식을 관심 지역과 분야에 맞춰 만나는 모알림">
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="apple-touch-icon" href="./assets/icon-180.png">
+  <link rel="apple-touch-icon" href="./icon-180.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <title>모알림 — 놓치기 아까운 우리 동네 순간들</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,7 +20,7 @@
 <body>
   <main id="app" class="app-shell">
     <section class="screen welcome-screen is-active" id="screen-welcome" aria-labelledby="welcome-title">
-      <div class="welcome-top"><a class="brand" href="#welcome" aria-label="모알림 시작 화면"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><img class="wordmark" src="assets/moallim-wordmark.svg" width="98" height="34" alt="모알림"></a><div class="header-tools" id="tools-welcome"><span class="brand-caption">NAMYANGJU · LOCAL LIFE</span><div class="language-picker" id="language-picker">
+      <div class="welcome-top"><a class="brand" href="#welcome" aria-label="모알림 시작 화면"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><img class="wordmark" src="./moallim-wordmark.svg" width="98" height="34" alt="모알림"></a><div class="header-tools" id="tools-welcome"><span class="brand-caption">NAMYANGJU · LOCAL LIFE</span><div class="language-picker" id="language-picker">
         <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></svg>
         <span id="language-code" aria-hidden="true">KO</span>
       <select id="ui-language" aria-label="언어 선택">
@@ -105,7 +105,7 @@
           <button id="list-mode" aria-pressed="true">목록 보기</button><button id="calendar-mode" aria-pressed="false">달력 보기</button>
           <button id="category-search" aria-label="분야별 탐색"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="m15 15 5 5"/></svg></button>
         </div><div id="explore-filters" class="explore-filters" hidden><label class="filter-select-label" for="explore-region">지역</label><select id="explore-region" autocomplete="off" aria-label="탐색 지역 필터"><option value="all">전체 지역</option></select><label class="filter-select-label" for="explore-category">분야</label><select id="explore-category" autocomplete="off" aria-label="탐색 분야 필터"><option value="all">전체 분야</option></select></div></div>
-        <section class="events-section" aria-live="polite"><div class="events-heading"><div><h1 id="events-title">추천 행사</h1><span id="event-count">0개</span></div><div class="events-meta"><button class="text-button" id="desktop-saved">저장한 행사</button><label class="sort-label" for="event-sort">정렬</label><select id="event-sort" autocomplete="off" aria-label="행사 정렬"><option value="soonest">가까운 날짜순</option><option value="latest">늦은 날짜순</option></select></div></div><section id="calendar-panel" class="calendar-panel" aria-label="맞춤 행사 달력" hidden>
+        <section class="events-section" aria-live="polite"><div class="events-heading"><div><h1 id="events-title">추천 행사</h1><span id="event-count">0개</span></div><div class="events-meta"><button class="text-button" id="desktop-saved"></button><label class="sort-label" for="event-sort">정렬</label><select id="event-sort" autocomplete="off" aria-label="행사 정렬"><option value="soonest">가까운 날짜순</option><option value="latest">늦은 날짜순</option></select></div></div><section id="calendar-panel" class="calendar-panel" aria-label="맞춤 행사 달력" hidden>
           <div class="month-line"><button id="prev-month" class="text-button" aria-label="이전 달">‹</button><strong id="calendar-month"></strong><button id="next-month" class="text-button" aria-label="다음 달">›</button></div>
           <div class="calendar-grid" id="calendar-days"></div><p id="calendar-date"></p>
         </section><div id="event-list" class="event-list"></div></section>
