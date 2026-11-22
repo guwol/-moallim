@@ -930,5 +930,86 @@ if (location.protocol === "file:") window.moallimOfflineEvents = [
     "status": "demo",
     "isVerified": false,
     "isDemo": true
+  },
+  {
+    "id": "demo-dasan-spreadsheet-cert",
+    "title": "다산 엑셀 자격증 실습반",
+    "categories": [
+      "교육·강좌"
+    ],
+    "subcategories": {
+      "교육·강좌": [
+        "자격증"
+      ]
+    },
+    "regions": [
+      "다산1동"
+    ],
+    "scope": "local",
+    "startDate": "2026-12-05T10:00:00+09:00",
+    "endDate": "2026-12-05T12:00:00+09:00",
+    "registrationStart": null,
+    "registrationEnd": null,
+    "location": null,
+    "organizer": null,
+    "description": "표 작성과 기본 함수 사용을 연습하고 컴퓨터활용능력 실기 유형의 예제 문제를 풀어 보는 체험 수업입니다.",
+    "sourceUrl": null,
+    "status": "demo",
+    "isVerified": false,
+    "isDemo": true
+  },
+  {
+    "id": "demo-dasan-photo-exhibit",
+    "title": "다산 골목 사진 전시",
+    "categories": [
+      "문화·예술"
+    ],
+    "subcategories": {
+      "문화·예술": [
+        "미술·전시"
+      ]
+    },
+    "regions": [
+      "다산1동"
+    ],
+    "scope": "local",
+    "startDate": "2026-12-12T11:00:00+09:00",
+    "endDate": "2026-12-12T17:00:00+09:00",
+    "registrationStart": null,
+    "registrationEnd": null,
+    "location": null,
+    "organizer": null,
+    "description": "동네 골목의 계절 변화를 담은 사진을 둘러보고 마음에 든 장면에 짧은 감상 메모를 남겨 보세요.",
+    "sourceUrl": null,
+    "status": "demo",
+    "isVerified": false,
+    "isDemo": true
+  },
+  {
+    "id": "demo-jinjeop-bookmarks",
+    "title": "진접 도서관 책갈피 만들기",
+    "categories": [
+      "독서·도서관"
+    ],
+    "subcategories": {
+      "독서·도서관": [
+        "도서관 프로그램"
+      ]
+    },
+    "regions": [
+      "진접읍"
+    ],
+    "scope": "local",
+    "startDate": "2026-12-13T14:00:00+09:00",
+    "endDate": "2026-12-13T15:30:00+09:00",
+    "registrationStart": null,
+    "registrationEnd": null,
+    "location": null,
+    "organizer": null,
+    "description": "좋아하는 책의 한 문장을 골라 종이 책갈피에 옮겨 적고 겨울 무늬로 꾸며 보는 프로그램입니다.",
+    "sourceUrl": null,
+    "status": "demo",
+    "isVerified": false,
+    "isDemo": true
   }
 ];

@@ -133,7 +133,6 @@
   function setView(view, push = true) {
     if (!['home', 'explore', 'saved'].includes(view)) return;
     state.view = view;
-    $('#desktop-saved').textContent = t(view === 'saved' ? '추천 행사' : '저장한 행사');
     $$('.bottom-nav-item').forEach(button => {
       const active = button.dataset.view === view;
       button.classList.toggle('is-active', active);
@@ -635,7 +634,9 @@
     }
     const actions = document.createElement('div');
     actions.className = 'listing-actions';
-    actions.append(bookmark);
+    const similarEvents = button('button', '유사한 행사 더 보기', { class: 'text-button' });
+    similarEvents.addEventListener('click', () => browseCategory(event.categories[0]));
+    actions.append(similarEvents, bookmark);
     article.append(body, footer, actions);
     return article;
   }
@@ -904,7 +905,6 @@
   $('#event-sort').addEventListener('change', event => { state.sort = event.target.value; renderEvents(); });
   $('#explore-region').addEventListener('change', event => { state.filterRegion = event.target.value; renderEvents(); });
   $('#explore-category').addEventListener('change', event => { state.filterCategory = event.target.value; renderEvents(); });
-  $('#desktop-saved').onclick = () => $('.bottom-nav-item[data-view="' + (state.view === 'saved' ? 'home' : 'saved') + '"]').click();
   $('#detail-action').addEventListener('click', event => {
     const link = event.target.closest('a[href]');
     if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey ||

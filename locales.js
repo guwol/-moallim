@@ -1,5 +1,11 @@
 // Korean source text → English, Russian, Simplified Chinese.
 const MOALLIM_MESSAGES = {
+  "다산 엑셀 자격증 실습반": ["Dasan Excel certification practice", "Практика Excel для сертификации в Дасане", "茶山 Excel 资格考试练习课"],
+  "표 작성과 기본 함수 사용을 연습하고 컴퓨터활용능력 실기 유형의 예제 문제를 풀어 보는 체험 수업입니다.": ["Practice tables and basic formulas with sample spreadsheet certification tasks.", "Потренируйтесь создавать таблицы, применять формулы и решать типовые задания.", "练习制作表格与使用基础公式，并完成电子表格资格考试的示例题。"],
+  "다산 골목 사진 전시": ["Dasan neighborhood photography exhibition", "Фотовыставка о районе Дасан", "茶山街巷摄影展"],
+  "동네 골목의 계절 변화를 담은 사진을 둘러보고 마음에 든 장면에 짧은 감상 메모를 남겨 보세요.": ["Explore photographs of the neighborhood through the seasons and leave a note about a favorite image.", "Посмотрите фотографии района в разные времена года и оставьте записку о любимом снимке.", "欣赏记录街巷四季变化的照片，为喜欢的作品留下一句感想。"],
+  "진접 도서관 책갈피 만들기": ["Jinjeop library bookmark workshop", "Мастерская закладок в библиотеке Чинджопа", "榛接图书馆书签制作课"],
+  "좋아하는 책의 한 문장을 골라 종이 책갈피에 옮겨 적고 겨울 무늬로 꾸며 보는 프로그램입니다.": ["Choose a line from a favorite book and decorate a paper bookmark with winter patterns.", "Выберите строчку из любимой книги и украсьте бумажную закладку зимними узорами.", "选一句喜欢的书中文字，写在纸书签上，再用冬日图案装饰。"],
   "스트레칭": ["Stretching", "Растяжка", "拉伸训练"],
   "어린이 공작": ["Children’s crafts", "Детские поделки", "儿童手工"],
   "그림책 놀이": ["Picture book activities", "Занятия с книжками-картинками", "绘本活动"],
@@ -67,6 +73,7 @@ const MOALLIM_MESSAGES = {
   "수정 ↗": ["Edit ↗", "Изменить ↗", "修改 ↗"],
   "← 이전으로": ["← Back", "← Назад", "← 返回"],
   "예정": ["Upcoming", "Предстоящие", "即将开始"],
+  "지금 참여 가능": ["Join now", "Можно участвовать сейчас", "现在可参加"],
   "진행 중": ["Ongoing", "Текущие", "进行中"],
   "종료": ["Ended", "Завершено", "已结束"],
   "목록 보기": ["List", "Список", "列表"],
@@ -123,7 +130,7 @@ const MOALLIM_MESSAGES = {
   "접수 예정": ["Registration opens later", "Запись ещё не открыта", "报名未开始"],
   "접수 마감 D-Day": ["Registration closes today", "Запись до конца дня", "今天截止报名"],
   "접수 마감 D-{n}": ["Registration closes in {n}d", "До конца записи: {n} дн.", "距报名截止 {n} 天"],
-  "같은 분야 더 보기 →": ["More in this category →", "Ещё в категории →", "更多同类活动 →"],
+  "유사한 행사 더 보기": ["See similar events", "Похожие события", "查看更多类似活动"],
   "일정 미정": ["Date to be announced", "Дата уточняется", "日期待定"],
   "예시 일정": ["Demo schedule", "Пример расписания", "演示日程"],
   "실제 행사일": ["Original date", "Исходная дата", "原活动日期"],
