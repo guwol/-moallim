@@ -26,13 +26,15 @@
   };
   const STORAGE = { regions: 'moallim.regions', categories: 'moallim.categories', bookmarks: 'moallim.bookmarks' };
   const state = {
-    regions: readArray(STORAGE.regions),
-    categories: readArray(STORAGE.categories),
-    bookmarks: readArray(STORAGE.bookmarks),
+    regions: [],
+    categories: [],
+    bookmarks: [...new Set(readArray(STORAGE.bookmarks))],
     events: [],
     view: 'home',
     eventStatus: 'upcoming',
     sort: 'soonest',
+    filterRegion: 'all',
+    filterCategory: 'all',
     calendar: false,
     calendarDay: seoulDay(Date.now()),
     categoryResults: false,
@@ -41,8 +43,7 @@
     dataError: false,
     toastTimer: null,
     statusTimer: null,
-    selectedEventId: null,
-    detailReturn: null
+    selectedEventId: null
   };
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -100,20 +101,22 @@
     state.categoryResults = Boolean(snapshot.categoryResults);
     state.subcategory = snapshot.subcategory || '';
   }
+  const visit = String(performance.timeOrigin);
   function feedHistoryState() {
     return {
-      view: state.view,
+      visit, view: state.view,
       eventStatus: state.eventStatus,
       sort: state.sort,
       calendar: state.calendar, calendarDay: state.calendarDay,
       categoryResults: state.categoryResults, subcategory: state.subcategory,
-      filterRegion: $('#explore-region')?.value || 'all',
-      filterCategory: $('#explore-category')?.value || 'all',
+      filterRegion: state.filterRegion,
+      filterCategory: state.filterCategory,
       scrollY: window.scrollY
     };
   }
   function setScreen(name, push = true) {
     if (!screens[name]) return;
+    if (push && state.screen === 'feed') rememberFeed();
     state.screen = name;
     $(`#tools-${name}`).append($('#language-picker'));
     Object.entries(screens).forEach(([key, element]) => {
@@ -123,13 +126,9 @@
     const hash = name === 'detail' ? `event/${encodeURIComponent(state.selectedEventId || '')}` : name === 'feed' ? state.view : name;
     if (push) {
       const entry = { screen: name, ...feedHistoryState(), eventId: state.selectedEventId };
-      if (name === 'detail' && state.detailReturn) {
-        entry.returnScrollY = state.detailReturn.scrollY;
-        entry.returnState = state.detailReturn;
-      }
       history.pushState(entry, '', `#${hash}`);
     }
-    window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }
   function setView(view, push = true) {
     if (!['home', 'explore', 'saved'].includes(view)) return;
@@ -143,7 +142,7 @@
     const browsing = view === 'explore' && state.categoryResults;
     $('#explore-filters').hidden = view !== 'explore' || browsing;
     $('#results-back').hidden = !browsing;
-    $('#status-tabs').hidden = browsing;
+    $('#status-tabs').hidden = browsing || view === 'saved';
     $('#feed-tools').hidden = view !== 'home';
     syncSortOptions();
     if (state.screen === 'feed' && push) history.pushState({ screen: 'feed', ...feedHistoryState() }, '', `#${view}`);
@@ -151,6 +150,8 @@
   }
   function setEventStatus(status, push = true) {
     if (!['upcoming', 'ongoing'].includes(status)) return;
+    if (push && state.eventStatus === status) return;
+    if (push && state.screen === 'feed') rememberFeed();
     state.eventStatus = status;
     $$('.view-tab').forEach(tab => {
       const active = tab.dataset.status === status;
@@ -174,6 +175,11 @@
     select.value = state.sort;
   }
   window.addEventListener('popstate', event => {
+    if (event.state?.visit !== visit) {
+      setScreen('welcome', false);
+      history.replaceState({screen:'welcome', visit}, '', location.pathname + location.search);
+      return;
+    }
     const hashParts = location.hash.slice(1).split('/');
     const hashScreen = hashParts[0] === 'event' ? 'detail' : ['home', 'explore', 'saved'].includes(hashParts[0]) ? 'feed' : hashParts[0];
     const screen = event.state?.screen || hashScreen;
@@ -182,24 +188,22 @@
       state.view = event.state?.view || state.view;
       state.eventStatus = event.state?.eventStatus || state.eventStatus;
       const id = event.state?.eventId || decodeURIComponent(hashParts[1] || '');
-      openDetailsById(id, false, event.state?.returnState);
+      openDetailsById(id, false);
       return;
     }
     if (safeScreen === 'feed') {
-      const restore = state.screen === 'detail' && state.detailReturn ? state.detailReturn : event.state || {};
+      const restore = event.state || {};
       state.view = restore.view || hashParts[0] || 'home';
       state.eventStatus = restore.eventStatus || hashParts[1] || 'upcoming';
       restoreListing(restore);
-      $('#explore-region').value = restore.filterRegion || 'all';
-      $('#explore-category').value = restore.filterCategory || 'all';
+      state.filterRegion = restore.filterRegion || 'all';
+      state.filterCategory = restore.filterCategory || 'all';
       if (restore.sort) state.sort = restore.sort;
-      setView(state.view, false);
       setEventStatus(state.eventStatus, false);
-      state.sort = restore.sort || state.sort;
-      syncSortOptions();
-      renderEvents();
+      state.sort = restore.sort || 'soonest';
+      setView(state.view, false);
       setScreen('feed', false);
-      requestAnimationFrame(() => window.scrollTo(0, restore.scrollY ?? 0));
+      requestAnimationFrame(() => window.scrollTo({top:restore.scrollY ?? 0, behavior:'instant'}));
       return;
     }
     setScreen(safeScreen, false);
@@ -252,9 +256,16 @@
     });
     renderInterestSummary();
   }
-  const choices = {'문화·예술':['댄스','공연·연극','음악','미술·전시','공예·도예','생활문화'], '교육·강좌':['코딩·IT','요리','외국어','자격증'], '축제·행사':['지역 축제'], '독서·도서관':['독서 모임','도서관 프로그램']};
-  let interests = {};
-  try { interests = JSON.parse(localStorage.getItem('moallim.details')) || {}; } catch {}
+  const choices = {
+    '문화·예술': ['댄스', '공연·연극', '음악', '미술·전시', '공예·도예', '생활문화'],
+    '교육·강좌': ['코딩·IT', '요리', '외국어', '자격증'],
+    '축제·행사': ['지역 축제'],
+    '스포츠': ['걷기·달리기', '생활체육', '스트레칭'],
+    '가족·어린이': ['가족 체험', '자연 놀이', '어린이 공작', '그림책 놀이'],
+    '봉사·참여': ['환경 봉사', '이웃 나눔', '플로깅'],
+    '독서·도서관': ['독서 모임', '도서관 프로그램']
+  };
+  const interests = {};
   function renderChoices() {
     const panel = $('#subchoices');
     panel.replaceChildren();
@@ -272,7 +283,7 @@
         const chip = button('button', (active ? '✓ ' : '') + t(option), {class:'selection-chip', 'aria-pressed':String(active)});
         chip.onclick = () => {
           interests[category] = option === '전체' ? [] : active ? selected.filter(v => v !== option) : [...selected, option];
-          save('moallim.details', interests);
+          renderFeedPreferences();
           renderChoices();
         };
         group.append(chip);
@@ -291,7 +302,7 @@
   function toggleValue(key, value) {
     const current = state[key];
     state[key] = current.includes(value) ? current.filter(item => item !== value) : [...current, value];
-    save(STORAGE[key], state[key]);
+    if (key === 'categories' && !state.categories.includes(value)) delete interests[value];
     if (key === 'regions') renderDistrictSummary(); else renderInterestSummary();
     if (state.screen === 'feed') renderEvents();
   }
@@ -318,11 +329,10 @@
         data = await response.json();
       }
       if (!Array.isArray(data)) throw new Error('events.json must contain an array');
-      state.events = data.filter(isValidEvent);
+      state.events = [...new Map(data.filter(isValidEvent).map(event => [event.id, event])).values()];
       state.dataError = false;
       scheduleStatusRefresh();
-    } catch (error) {
-      console.error('모알림 행사 데이터를 불러오지 못했습니다.', error);
+    } catch {
       state.events = [];
       state.dataError = true;
     }
@@ -341,10 +351,13 @@
   }
   function eventStatus(event, now = Date.now()) {
     const start = parseDate(event.startDate);
-    const end = parseDate(event.endDate) || (start && new Date(start.toLocaleDateString('sv-SE',{timeZone:'Asia/Seoul'}) + 'T23:59:59.999+09:00'));
-    if (!start || !end) return null;
+    if (!start) return null;
+    const end = parseDate(event.endDate);
+    // With no end time, only the announced Seoul calendar day is known.
+    const until = end ? end.getTime() + (event.endDate.length === 10 ? 86400000 : 0)
+      : (seoulDay(start.getTime()) + 1) * 86400000 - 9 * 3600000;
     if (now < start.getTime()) return 'upcoming';
-    if (now < end.getTime() + (event.endDate?.length === 10 ? 86400000 : 0)) return 'ongoing';
+    if (now < until) return 'ongoing';
     return 'past';
   }
   function isVisibleEvent(event) {
@@ -376,12 +389,12 @@
   function matchingEvents() {
     let events = state.events.filter(isVisibleEvent);
     const browsing = state.view === 'explore' && state.categoryResults;
-    events = events.filter(event => browsing ? eventStatus(event) !== 'past' : eventStatus(event) === state.eventStatus);
+    if (state.view !== 'saved') events = events.filter(event => browsing ? eventStatus(event) !== 'past' : eventStatus(event) === state.eventStatus);
     if (state.view === 'home') events = events.filter(matchesPreferences);
     if (state.view === 'saved') events = events.filter(event => state.bookmarks.includes(event.id));
     if (state.view === 'explore') {
-      const region = $('#explore-region').value;
-      const category = $('#explore-category').value;
+      const region = state.filterRegion;
+      const category = state.filterCategory;
       if (region !== 'all') events = events.filter(event => event.scope === 'citywide' || event.regions.includes('남양주시 전체') || event.regions.includes(region));
       if (browsing && state.subcategory) events = events.filter(event => event.subcategories?.[category]?.includes(state.subcategory));
       if (category !== 'all') events = events.filter(event => event.categories.includes(category));
@@ -391,7 +404,7 @@
         const priority = Number(Boolean(b.featured)) - Number(Boolean(a.featured));
         if (priority) return priority;
       }
-      const dateField = browsing || state.eventStatus === 'upcoming' ? 'startDate' : 'endDate';
+      const dateField = state.view === 'saved' || browsing || state.eventStatus === 'upcoming' ? 'startDate' : 'endDate';
       const first = parseDate(a[dateField])?.getTime() ?? Number.MAX_SAFE_INTEGER;
       const second = parseDate(b[dateField])?.getTime() ?? Number.MAX_SAFE_INTEGER;
       return state.sort === 'latest' ? second - first : first - second;
@@ -481,8 +494,8 @@
 
   function browseCategory(category, subcategory = '') {
     if (state.screen === 'feed') history.replaceState({ screen: 'feed', ...feedHistoryState() }, '');
-    $('#explore-category').value = category;
-    $('#explore-region').value = 'all';
+    state.filterCategory = category;
+    state.filterRegion = 'all';
     state.categoryResults = true;
     state.subcategory = subcategory;
     setScreen('feed', false);
@@ -517,6 +530,9 @@
 
   function renderEvents() {
     if (!$('#event-list')) return;
+    $('#explore-region').value = state.filterRegion;
+    $('#explore-category').value = state.filterCategory;
+    $('#event-sort').value = state.sort;
     const list = $('#event-list'); list.replaceChildren();
     const calendar = state.view === 'home' && state.calendar;
     $('#calendar-panel').hidden = !calendar || state.dataError;
@@ -532,23 +548,23 @@
     const heading = $('#events-title');
     heading.textContent = t(viewCopy[1]);
     heading.classList.toggle('picks-heading', state.view === 'home');
-    $('#event-count').textContent = t('{n}개', events.length);
+    $('#event-count').textContent = state.dataError ? '' : t(state.view === 'home' ? '맞춤 행사 {n}개' : '{n}개', events.length);
     $('#saved-bottom-count').textContent = String(state.bookmarks.length);
     $('#saved-bottom-count').hidden = state.bookmarks.length === 0;
     if (state.dataError) {
-      list.append(emptyState('행사 정보를 불러오지 못했어요', '잠시 후 다시 시도해 주세요.', '다시 시도', loadEvents));
+      list.append(emptyState('행사 정보를 불러오지 못했어요.', '잠시 후 다시 시도해 주세요.', '다시 시도', loadEvents));
       return;
     }
     if (!events.length) {
       let heading; let description; let action;
       if (calendar) {
-        heading = '이 날짜에는 맞춤 행사가 없어요.'; description = '다른 날짜를 선택해 보세요.';
+        heading = '조건에 맞는 행사가 없어요.'; action = '관심사 수정하기'; description = '다른 날짜를 선택해 보세요.';
       } else if (state.view === 'saved') {
         heading = '아직 저장한 행사가 없어요'; description = '마음에 드는 행사의 북마크를 눌러 다시 볼 수 있도록 담아두세요.';
       } else if (state.view === 'home') {
-        heading = '아직 조건에 맞는 행사가 없어요.'; description = '관심 지역이나 분야를 조금 넓히면 새로운 소식을 만날 수 있어요.'; action = '관심 설정 바꾸기';
+        heading = '조건에 맞는 행사가 없어요.'; description = '관심 지역이나 분야를 조금 넓히면 새로운 소식을 만날 수 있어요.'; action = '관심사 수정하기';
       } else {
-        heading = '조건에 맞는 예시가 없어요'; description = '다른 지역이나 분야를 선택해 다시 살펴보세요.';
+        heading = '조건에 맞는 행사가 없어요.'; description = '다른 지역이나 분야를 선택해 다시 살펴보세요.';
       }
       list.append(emptyState(heading, description, action, action ? editPreferences : null));
       return;
@@ -593,11 +609,12 @@
     addMeta(meta, event.schedule && event.startDate?.length === 10 ? '' : '◷', event.startDate ? `${formatDate(event.startDate)}${event.endDate && formatDate(event.startDate, 'date') !== formatDate(event.endDate, 'date') ? ` – ${formatDate(event.endDate, 'date')}` : ''}` : '일정 미정');
     
     meta.append(region);
+    if (state.view === 'home' && matchesPreferences(event)) addMeta(meta, '', '선택한 관심사와 일치해요');
     const footer = document.createElement('div');
     footer.className = 'listing-facts';
     const free = event.fee === 0 || event.fee === '무료';
     const paid = typeof event.fee === 'number' ? event.fee > 0 : /[1-9][0-9,]*\s*원|유료/.test(event.fee || '');
-    const facts = [participantLabel(event), free ? '무료' : paid ? '유료' : '', event.originalStartDate && state.view !== 'explore' ? '예시 일정' : ''];
+    const facts = [participantLabel(event), free ? '무료' : paid ? '유료' : '', event.isDemo ? '데모' : event.isVerified && isValidHttpUrl(event.sourceUrl) ? '공식 정보' : '', event.originalStartDate ? '시연용 일정' : ''];
     footer.textContent = facts.filter(Boolean).map(value => t(value)).join(' · ');
     const status = registrationStatusText(event);
     if (status) {
@@ -606,8 +623,6 @@
       label.textContent = status;
       top.append(label);
     }
-    const more = button('button','같은 분야 더 보기 →',{class:'text-button'});
-    more.onclick = () => browseCategory(event.categories[0]);
 
     const body = document.createElement('div');
     body.className = 'listing-body';
@@ -620,7 +635,7 @@
     }
     const actions = document.createElement('div');
     actions.className = 'listing-actions';
-    actions.append(more, bookmark);
+    actions.append(bookmark);
     article.append(body, footer, actions);
     return article;
   }
@@ -641,7 +656,7 @@
       const selected = state.events.find(event => event.id === state.selectedEventId);
       if (selected) renderDetail(selected);
     }
-    toast(state.bookmarks.includes(id) ? '저장한 행사에 담았어요.' : '저장을 해제했어요.');
+    toast(state.bookmarks.includes(id) ? '관심 행사에 저장했어요.' : '저장을 취소했어요.');
   }
   const DETAIL_ICON_PATHS = {
     calendar: ['M7 3v3', 'M17 3v3', 'M4 8h16', 'M5 5h14v15H5z'],
@@ -681,6 +696,7 @@
     return parseDate(event.registrationEnd);
   }
   function registrationStatusText(event) {
+    if (event.isDemo || (!event.isVerified && !event.registrationStatus)) return '';
     const now = Date.now();
     const start = parseDate(event.registrationStart)?.getTime();
     const end = registrationDeadline(event)?.getTime();
@@ -690,8 +706,87 @@
       const days = seoulDay(end) - seoulDay(now);
       return days === 0 ? t('접수 마감 D-Day') : t('접수 마감 D-{n}', days);
     }
-    if (event.registrationStatus) return event.registrationStatus;
+    
     return '';
+  }
+  function calendarFile(event) {
+    const start = parseDate(event.startDate);
+    if (!start) return null;
+    const end = parseDate(event.endDate);
+    const utc = date => date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+    const dayString = day => new Date(day * 86400000).toISOString().slice(0, 10);
+    const escape = text => String(text).replace(/\\/g, '\\\\').replace(/\r\n|\n|\r/g, '\\n').replace(/([,;])/g, '\\$1');
+    const lines = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Moallim//Events//KO','BEGIN:VEVENT',
+      'UID:' + escape(event.id) + '@moallim', 'DTSTAMP:' + utc(new Date()), 'SUMMARY:' + escape(event.title)];
+    const weekly = /^([일월화수목금토](?:·[일월화수목금토])*)(?:요일)?\s+(\d\d?:\d\d)\s*[–~-]\s*(\d\d?:\d\d)/.exec(event.schedule || '');
+    if (weekly && end) {
+      const days = [...weekly[1].replace(/·/g, '')].map(ch => '일월화수목금토'.indexOf(ch));
+      let first = seoulDay(start.getTime());
+      while (!days.includes((first + 4) % 7)) first++;
+      const last = seoulDay(end.getTime());
+      if (first > last) return null;
+      const session = time => parseDate(dayString(first) + 'T' + time.padStart(5,'0'));
+      lines.push('DTSTART:' + utc(session(weekly[2])), 'DTEND:' + utc(session(weekly[3])),
+        'RRULE:FREQ=WEEKLY;BYDAY=' + days.map(i => ['SU','MO','TU','WE','TH','FR','SA'][i]).join(',') +
+        ';UNTIL=' + utc(parseDate(dayString(last) + 'T23:59:59')));
+    } else if (event.startDate.length === 10) {
+      lines.push('DTSTART;VALUE=DATE:' + event.startDate.replace(/-/g,''));
+      if (end && event.endDate.length === 10) lines.push('DTEND;VALUE=DATE:' + dayString(seoulDay(end.getTime()) + 1).replace(/-/g,''));
+    } else {
+      lines.push('DTSTART:' + utc(start));
+      if (end && event.endDate.length > 10 && end > start) lines.push('DTEND:' + utc(end));
+    }
+    if (event.location) lines.push('LOCATION:' + escape(event.location));
+    lines.push('END:VEVENT','END:VCALENDAR');
+    // RFC 5545 folds at 75 octets, including the continuation space.
+    const encoder = new TextEncoder();
+    return lines.map(line => {
+      let folded = '', size = 0;
+      for (const ch of line) {
+        const bytes = encoder.encode(ch).length;
+        if (size + bytes > 75) { folded += '\r\n '; size = 1; }
+        folded += ch; size += bytes;
+      }
+      return folded;
+    }).join('\r\n') + '\r\n';
+  }
+  function renderDetailTools(event) {
+    const tools = $('#detail-tools');
+    tools.replaceChildren();
+    const contents = calendarFile(event);
+    if (contents) {
+      const download = button('button','캘린더에 추가',{class:'text-button'});
+      download.onclick = () => {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(new Blob([contents], {type:'text/calendar;charset=utf-8'}));
+        link.download = event.id + '.ics';
+        tools.append(link); link.click(); link.remove();
+        setTimeout(() => URL.revokeObjectURL(link.href), 60000);
+      };
+      tools.append(download);
+    }
+    const url = new URL(location.href);
+    url.hash = ''; url.search = ''; url.searchParams.set('event', event.id);
+    const href = /^https?:$/.test(url.protocol) ? url.href : !event.isDemo && event.isVerified && isValidHttpUrl(event.sourceUrl) ? event.sourceUrl : '';
+    if (!href) return;
+    const share = button('button','공유하기',{class:'text-button'});
+    share.onclick = async () => {
+      if (navigator.share) {
+        try { await navigator.share({title:event.title, url:href}); return; }
+        catch (err) { if (err.name === 'AbortError') return; }
+      }
+      try { await navigator.clipboard.writeText(href); toast('링크가 복사되었어요.'); }
+      catch {
+        let field = tools.querySelector('input');
+        if (!field) {
+          field = document.createElement('input'); field.readOnly = true;
+          field.setAttribute('aria-label',t('공유 링크')); tools.append(field);
+        }
+        field.value = href; field.focus(); field.select();
+        if (document.execCommand?.('copy')) { field.remove(); share.focus(); toast('링크가 복사되었어요.'); }
+      }
+    };
+    tools.append(share);
   }
   function renderDetail(event) {
     state.selectedEventId = event.id;
@@ -704,6 +799,7 @@
     statusElement.className = `detail-status${status === 'ongoing' ? ' status-ongoing' : status === 'past' ? ' status-past' : ''}`;
     const demo = Boolean(event.isDemo || event.status === 'demo');
     $('#detail-demo-note').hidden = !demo;
+    $('#detail-demo-note').textContent = t('데모') + ' · ' + t('이 행사는 가상의 프로그램입니다.');
     const factList = $('#detail-facts'); factList.replaceChildren();
     detailFact(factList, 'calendar', event.originalStartDate ? '예시 일정' : '행사 일정', formatEventRange(event));
     if (event.originalStartDate) detailFact(factList,'calendar','실제 행사일',formatDate(event.originalStartDate));
@@ -733,9 +829,9 @@
     const externalUrl = event.registrationUrl && isValidHttpUrl(event.registrationUrl)
       ? event.registrationUrl
       : event.sourceUrl && isValidHttpUrl(event.sourceUrl) ? event.sourceUrl : null;
-    if (externalUrl && event.isVerified) {
+    if (externalUrl && event.isVerified && !demo) {
       const link = document.createElement('a'); link.href = externalUrl; link.target = '_blank'; link.rel = 'noopener noreferrer';
-      link.textContent = t(event.registrationUrl ? '신청 페이지로 이동' : '공식 안내 확인하기');
+      link.textContent = t(externalUrl === event.registrationUrl ? '신청 페이지로 이동' : '공식 안내 확인하기');
       action.append(link);
       if (isValidHttpUrl(event.bookingGuideUrl)) {
         const guide = link.cloneNode(false);
@@ -748,6 +844,7 @@
       message.textContent = t('공식 안내가 등록되지 않았어요.');
       action.append(message);
     }
+    renderDetailTools(event);
     const bookmark = $('#detail-bookmark');
     const saved = state.bookmarks.includes(event.id);
     bookmark.textContent = saved ? '♥' : '♡';
@@ -755,35 +852,15 @@
     bookmark.setAttribute('aria-label', t(saved ? '저장 해제' : '행사 저장'));
   }
   function openDetails(event) {
-    state.detailReturn = feedHistoryState();
+    if (state.screen === 'detail') return;
     renderDetail(event);
     setScreen('detail');
   }
-  function openDetailsById(id, push = false, returnState = null) {
+  function openDetailsById(id, push = false) {
     const event = state.events.find(item => item.id === id);
     if (!event) return;
-    if (returnState) state.detailReturn = returnState;
     renderDetail(event);
     setScreen('detail', push);
-  }
-  function restoreDetailReturn() {
-    const snapshot = state.detailReturn;
-    if (snapshot) {
-      state.view = snapshot.view || 'home';
-      state.eventStatus = snapshot.eventStatus || 'upcoming';
-      state.sort = snapshot.sort || (state.eventStatus === 'past' ? 'latest' : 'soonest');
-      restoreListing(snapshot);
-      $('#explore-region').value = snapshot.filterRegion || 'all';
-      $('#explore-category').value = snapshot.filterCategory || 'all';
-      setView(state.view, false);
-      setEventStatus(state.eventStatus, false);
-      state.sort = snapshot.sort || state.sort;
-      syncSortOptions();
-      setScreen('feed', false);
-      requestAnimationFrame(() => window.scrollTo(0, snapshot.scrollY || 0));
-    } else {
-      setScreen('feed', false);
-    }
   }
   function toast(message) {
     const element = $('#toast'); element.textContent = t(message); element.classList.add('is-visible');
@@ -807,21 +884,27 @@
   $('#discovery-back').onclick = $('#results-back').onclick = () => history.back();
   $('#category-query').oninput = renderDirectory;
   $('#start-button').addEventListener('click', () => setScreen('districts'));
-  $('[data-action="go-welcome"]').addEventListener('click', () => setScreen('welcome'));
-  $('[data-action="go-districts"]').addEventListener('click', () => setScreen('districts'));
+  $('[data-action="go-welcome"]').addEventListener('click', () => history.back());
+  $('[data-action="go-districts"]').addEventListener('click', () => history.back());
   $('#district-next').addEventListener('click', () => { if (state.regions.length) setScreen('interests'); });
   $('#finish-button').addEventListener('click', () => {
     if (!state.categories.length) return;
-    renderFeedPreferences(); setScreen('feed'); setView('home', false); renderEvents();
+    renderFeedPreferences(); setView('home', false); setScreen('feed');
   });
   $('#edit-preferences').addEventListener('click', editPreferences);
   $('#edit-preferences-top').addEventListener('click', editPreferences);
   $$('.view-tab').forEach(item => item.addEventListener('click', () => setEventStatus(item.dataset.status)));
-  $$('.bottom-nav-item').forEach(item => item.addEventListener('click', () => { state.categoryResults = false; state.subcategory = ''; setView(item.dataset.view); }));
+  $$('.bottom-nav-item').forEach(item => item.addEventListener('click', () => { if (item.dataset.view === state.view && !state.categoryResults) return; rememberFeed(); state.categoryResults = false; state.subcategory = ''; setView(item.dataset.view); window.scrollTo({top:0,behavior:'instant'}); }));
+  window.addEventListener('storage', event => {
+    if (event.key !== STORAGE.bookmarks && event.key !== null) return;
+    state.bookmarks = [...new Set(readArray(STORAGE.bookmarks))];
+    renderEvents();
+    if (state.screen === 'detail') renderDetail(state.events.find(e => e.id === state.selectedEventId));
+  });
   $('#event-sort').addEventListener('change', event => { state.sort = event.target.value; renderEvents(); });
-  $('#explore-region').addEventListener('change', renderEvents);
-  $('#explore-category').addEventListener('change', renderEvents);
-  $('#desktop-saved').onclick = () => setView(state.view === 'saved' ? 'home' : 'saved');
+  $('#explore-region').addEventListener('change', event => { state.filterRegion = event.target.value; renderEvents(); });
+  $('#explore-category').addEventListener('change', event => { state.filterCategory = event.target.value; renderEvents(); });
+  $('#desktop-saved').onclick = () => $('.bottom-nav-item[data-view="' + (state.view === 'saved' ? 'home' : 'saved') + '"]').click();
   $('#detail-action').addEventListener('click', event => {
     const link = event.target.closest('a[href]');
     if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey ||
@@ -842,8 +925,7 @@
     event.preventDefault();
   });
   $('#detail-back').addEventListener('click', () => {
-    if (history.state?.screen === 'detail') history.back();
-    else restoreDetailReturn();
+    history.back();
   });
   $('#detail-bookmark').addEventListener('click', () => {
     if (state.selectedEventId) toggleBookmark(state.selectedEventId);
@@ -869,9 +951,28 @@
   });
   translateTemplate();
   renderDistricts(); renderInterests(); populateFilters(); renderFeedPreferences(); syncSortOptions();
-  if (state.regions.length && state.categories.length) {
-    // Keep the welcome screen available on a fresh visit; saved preferences are ready to use immediately.
-    // A returning user can reach their personalized feed through the existing start flow.
-  }
-  loadEvents();
+  // Each document starts a fresh onboarding session. A shared link is a new entry
+  // from welcome, so Back works even when the recipient has never used the app.
+  const sharedId = new URLSearchParams(location.search).get('event');
+  const initialUrl = new URL(location.href);
+  initialUrl.searchParams.delete('event');
+  initialUrl.hash = '';
+  history.scrollRestoration = 'manual';
+  history.replaceState({screen:'welcome', visit}, '', initialUrl.href);
+  try {
+    for (const key of [STORAGE.regions, STORAGE.categories, 'moallim.details']) localStorage.removeItem(key);
+  } catch {}
+  setScreen('welcome', false);
+  // A browser can restore form controls after the startup script has run.
+  window.addEventListener('pageshow', event => {
+    if (event.persisted || state.screen !== 'welcome') return;
+    $('#category-query').value = '';
+    renderDistrictSummary();
+    renderInterestSummary();
+    syncSortOptions();
+    renderEvents();
+  }, {once:true});
+  loadEvents().then(() => {
+    if (sharedId && state.screen === 'welcome' && state.events.some(e => e.id === sharedId && isVisibleEvent(e))) openDetailsById(sharedId, true);
+  });
 })();

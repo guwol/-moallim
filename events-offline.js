@@ -76,7 +76,12 @@ if (location.protocol === "file:") window.moallimOfflineEvents = [
     "status": "demo",
     "isVerified": false,
     "isDemo": true,
-    "previewNote": "초보자 산책 코스 · 운동화 착용"
+    "previewNote": "초보자 산책 코스 · 운동화 착용",
+    "subcategories": {
+      "스포츠": [
+        "걷기·달리기"
+      ]
+    }
   },
   {
     "id": "demo-family-01",
@@ -104,6 +109,10 @@ if (location.protocol === "file:") window.moallimOfflineEvents = [
     "subcategories": {
       "문화·예술": [
         "공예·도예"
+      ],
+      "가족·어린이": [
+        "가족 체험",
+        "어린이 공작"
       ]
     },
     "previewNote": "보호자와 함께 만드는 종이 조명 · 재료비 3,000원"
@@ -130,7 +139,12 @@ if (location.protocol === "file:") window.moallimOfflineEvents = [
     "status": "demo",
     "isVerified": false,
     "isDemo": true,
-    "previewNote": "안부 카드 손글씨 쓰기 · 재료 제공"
+    "previewNote": "안부 카드 손글씨 쓰기 · 재료 제공",
+    "subcategories": {
+      "봉사·참여": [
+        "이웃 나눔"
+      ]
+    }
   },
   {
     "id": "demo-reading-01",
@@ -155,7 +169,15 @@ if (location.protocol === "file:") window.moallimOfflineEvents = [
     "status": "demo",
     "isVerified": false,
     "isDemo": true,
-    "previewNote": "가족 그림책 낭독 · 어린이 동반 가능"
+    "previewNote": "가족 그림책 낭독 · 어린이 동반 가능",
+    "subcategories": {
+      "독서·도서관": [
+        "독서 모임"
+      ],
+      "가족·어린이": [
+        "그림책 놀이"
+      ]
+    }
   },
   {
     "id": "demo-2026-01",
@@ -314,7 +336,13 @@ if (location.protocol === "file:") window.moallimOfflineEvents = [
     "status": "demo",
     "isDemo": true,
     "isVerified": false,
-    "previewNote": "초보자 스트레칭 · 실내 운동화 지참"
+    "previewNote": "초보자 스트레칭 · 실내 운동화 지참",
+    "subcategories": {
+      "스포츠": [
+        "생활체육",
+        "스트레칭"
+      ]
+    }
   },
   {
     "id": "demo-2026-06",
@@ -798,5 +826,109 @@ if (location.protocol === "file:") window.moallimOfflineEvents = [
     "isDemo": false,
     "isVerified": true,
     "sourceUrl": "https://jumin.nyj.go.kr/web/edc/program/4293"
+  },
+  {
+    "id": "demo-dasan-run",
+    "title": "다산 초보 러닝 모임",
+    "categories": [
+      "스포츠"
+    ],
+    "subcategories": {
+      "스포츠": [
+        "걷기·달리기"
+      ]
+    },
+    "regions": [
+      "다산1동"
+    ],
+    "scope": "local",
+    "startDate": "2026-11-28T09:00:00+09:00",
+    "endDate": "2026-11-28T10:00:00+09:00",
+    "registrationStart": null,
+    "registrationEnd": null,
+    "location": null,
+    "organizer": null,
+    "description": "걷기와 짧은 달리기를 번갈아 하며 내게 맞는 속도를 찾아보는 모임입니다.",
+    "sourceUrl": null,
+    "status": "demo",
+    "isVerified": false,
+    "isDemo": true
+  },
+  {
+    "id": "demo-jinjeop-leaves",
+    "title": "진접 가족 낙엽 탐험",
+    "categories": [
+      "가족·어린이"
+    ],
+    "subcategories": {
+      "가족·어린이": [
+        "자연 놀이"
+      ]
+    },
+    "regions": [
+      "진접읍"
+    ],
+    "scope": "local",
+    "startDate": "2026-11-29T11:00:00+09:00",
+    "endDate": "2026-11-29T12:00:00+09:00",
+    "registrationStart": null,
+    "registrationEnd": null,
+    "location": null,
+    "organizer": null,
+    "description": "아이와 보호자가 함께 낙엽의 색과 모양을 살펴보고 나만의 나뭇잎 지도를 만들어요.",
+    "sourceUrl": null,
+    "status": "demo",
+    "isVerified": false,
+    "isDemo": true
+  },
+  {
+    "id": "demo-dasan-clean",
+    "title": "다산 골목 쓰담 걷기",
+    "categories": [
+      "봉사·참여"
+    ],
+    "subcategories": {
+      "봉사·참여": [
+        "환경 봉사",
+        "플로깅"
+      ]
+    },
+    "regions": [
+      "다산1동"
+    ],
+    "scope": "local",
+    "startDate": "2026-12-05T10:00:00+09:00",
+    "endDate": "2026-12-05T11:00:00+09:00",
+    "registrationStart": null,
+    "registrationEnd": null,
+    "location": null,
+    "organizer": null,
+    "description": "이웃과 골목을 걸으며 버려진 쓰레기를 줍고 종류별로 분리해 보는 활동입니다.",
+    "sourceUrl": null,
+    "status": "demo",
+    "isVerified": false,
+    "isDemo": true
+  },
+  {
+    "id": "demo-jinjeop-market",
+    "title": "진접 겨울 책 플리마켓",
+    "categories": [
+      "축제·행사"
+    ],
+    "regions": [
+      "진접읍"
+    ],
+    "scope": "local",
+    "startDate": "2026-12-06T13:00:00+09:00",
+    "endDate": "2026-12-06T16:00:00+09:00",
+    "registrationStart": null,
+    "registrationEnd": null,
+    "location": null,
+    "organizer": null,
+    "description": "다 읽은 책을 이웃과 교환하고 다음 독자에게 짧은 추천 메모를 남겨 보세요.",
+    "sourceUrl": null,
+    "status": "demo",
+    "isVerified": false,
+    "isDemo": true
   }
 ];

@@ -2255,3 +2255,9 @@ h1,h2,p {
 html:not(:lang(ko)) .interest-name,html:not(:lang(ko)) .events-heading {overflow-wrap:anywhere}
 html:not(:lang(ko)) .events-heading,html:not(:lang(ko)) .explore-filters {flex-wrap:wrap}
 html:not(:lang(ko)) .district-node {font-size:8px;padding-inline:4px}
+
+.detail-tools {display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:12px}
+.detail-tools button {min-height:44px}
+.detail-tools input {max-width:100%;min-width:0}
+.listing-row .card-open,.detail-heading h2 {overflow-wrap:anywhere}
+#category-query:focus-visible,.event-card:focus-visible {outline:2px solid var(--navy);outline-offset:2px}
